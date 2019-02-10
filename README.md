@@ -20,7 +20,7 @@ The goal is simple - find every instance of a needle that exists in the haystack
 
 ### Round 1
 
-`haystack.txt` is piped in via stdin.
+`haystack.txt` has to be piped in via stdin.
 
 #### Methods
 
@@ -38,7 +38,7 @@ Discounted for being too slow:
 
 ### Round 2
 
-`haystack.txt` can be loaded in as a file.
+`haystack.txt` has to be loaded in as a file.
 
 #### Methods
 
