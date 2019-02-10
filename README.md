@@ -44,7 +44,7 @@ Discounted for being too slow:
 
 Now that we have access to the direct `haystack.txt` file, we can process it to make more efficient use of our resources.
 
-The haystack file was split up so each CPU core can process against the loaded needles file. It uses the [`cluster`](https://nodejs.org/api/cluster.html) feature of NodeJs to create workers to work on their portion of the file using the best method from Round 1:`Object.hasOwnProperty(x)`. 
+The haystack file was split up so each CPU core can process against the loaded needles file. It uses the [`cluster`](https://nodejs.org/api/cluster.html) feature of NodeJs to create workers to search on their portion of the file using the best method from Round 1:`Object.hasOwnProperty(x)`. 
 
 # Results
 
