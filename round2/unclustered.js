@@ -25,7 +25,7 @@ function findNeedles() {
     .on('close',()=>{
       if(timer){
         const diff = process.hrtime(start);
-        console.log(`Object took ${diff[0] * ns + diff[1]} nanoseconds`);
+        console.log(`${diff[0] * ns + diff[1]} nanoseconds`);
       }
     })
 }
