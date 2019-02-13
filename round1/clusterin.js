@@ -2,6 +2,7 @@
 const { createReadStream } = require('fs');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
+// const numCPUs = 3;
 const needlesFile = process.argv[process.argv.indexOf('--needles') + 1];
 const timer = process.argv.indexOf('-t')!==-1;
 const needles = {};
@@ -53,6 +54,7 @@ MyBuffer.prototype.onData = function(data, cb) {
 };
 
 const find = line => {
+  numSearched ++;
     if (needles.hasOwnProperty(line)) {
       numFound++;
       delete needles[line];
@@ -71,24 +73,21 @@ function loadNeedles() {
       numNeedles++;
   }))
   .on('close', () => {
-      const hayBuffer = new MyBuffer();
-      needles[needleBuffer._line] = undefined;
-      var readline = require('readline');
-      var rl = readline.createInterface({
-        input: process.stdin,
-        terminal: false
+    const hayBuffer = new MyBuffer();
+    needles[needleBuffer._line] = undefined;
+    process.stdin.on('readable', function () {
+        let chunk;
+        while ((chunk = this.read()) !== null) {
+            hayBuffer.onData(chunk, find);
+        }
+    }).on('close',()=>{
+      process.send({
+        numSearched,
+        numFound,
+        numNeedles
       });
-      rl.on('line', function(line){
-        numSearched ++;
-        find(line);
-      }).on('close',()=>{
-        process.send({
-          numSearched,
-          numFound,
-          numNeedles
-        });
-        process.kill(process.pid);
-      });
+      process.kill(process.pid);
+    });
   })
 }
 
